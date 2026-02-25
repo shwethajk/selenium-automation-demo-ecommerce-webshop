@@ -1,0 +1,16 @@
+2026-02-25 23:18:38 INFO  TestListener:84 - 
+
+***********************************************************************
+ ==== Suite START: Debug-Specific Suite ==== 
+2026-02-25 23:18:38 INFO  DataRepo:348 - 🗂  Data Source: JSON  | jsonData=src/test/resources/testdata/JSON/
+2026-02-25 23:18:38 INFO  CartTests:265 - =====================================================
+2026-02-25 23:18:38 INFO  CartTests:266 -  🔧 TEST SUITE PARALLEL CONFIGURATION 
+2026-02-25 23:18:38 INFO  CartTests:267 - -----------------------------------------------------
+2026-02-25 23:18:38 INFO  CartTests:268 -  • Parallel Enabled          : false
+2026-02-25 23:18:38 INFO  CartTests:269 -  • DataProvider Parallel     : false
+2026-02-25 23:18:38 INFO  CartTests:275 - =====================================================
+2026-02-25 23:18:38 INFO  DataRepo:367 - DataRepo.load 'cart' -> JSON file='src/test/resources/testdata/JSON/cart.json'
+2026-02-25 23:18:52 INFO  WebDriverManager:1268 - Using chromedriver 145.0.7632.117 (resolved driver for Chrome 145)
+2026-02-25 23:18:52 INFO  Downloader:129 - Downloading https://storage.googleapis.com/chrome-for-testing-public/145.0.7632.117/win64/chromedriver-win64.zip
+2026-02-25 23:18:55 INFO  Downloader:190 - Extracting driver from compressed file chromedriver-win64.zip
+2026-02-25 23:18:56 INFO  WebDriverManager:1331 - Exporting webdriver.chrome.driver as C:\Users\HP\.cache\selenium\chromedriver\win64\145.0.7632.117\chromedriver.exe

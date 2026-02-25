@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <Property name="log-path">./logs</Property>
+        <Property name="log-pattern">%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Property>
+        <!-- one per JVM start; used to create a unique file name per run -->
+        <Property name="ts">${date:yyyyMMdd_HHmmss}</Property>
+    </Properties>
+    
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log-pattern}"/>
+        </Console>
+
+        <!-- New file each run: logs/automation-YYYYMMDD_HHMMSS.log -->
+        <RollingFile name="File"
+                     fileName="${log-path}/automation-${ts}.log"
+                     filePattern="${log-path}/automation-%d{MM-dd-yyyy}-%i.log.gz"
+                     append="false">
+            <PatternLayout pattern="${log-pattern}"/>
+            <Policies>
+                <!-- roll by day and size (optional, keeps behavior close to yours) -->
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <!-- enable console if you want both -->
+            <!-- <AppenderRef ref="Console"/> -->
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

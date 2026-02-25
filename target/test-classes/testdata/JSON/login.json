@@ -1,0 +1,11 @@
+[
+  {"TC_ID":"L001","Execute":"Y","Username":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","ExpectedResult":"SUCCESS"},
+  {"TC_ID":"L002","Execute":"Y","Username":"WrongSJKtestuser123@gmail.com","Password":"!QAZ0okm","ExpectedResult":"ERROR"},
+  {"TC_ID":"L003","Execute":"Y","Username":"","Password":"","ExpectedResult":"ERROR"},
+  {"TC_ID":"L004","Execute":"Y","Username":"SKTester102@gmail.com","Password":"Abcd@123","ExpectedResult":"SUCCESS"},
+  {"TC_ID":"L005","Execute":"Y","Username":"SKTester102@gmail.com","Password":"WrongAbcd@123","ExpectedResult":"ERROR"},
+  {"TC_ID":"L006","Execute":"Y","Username":"WrongSKTester102@gmail.com","Password":"Abcd@123","ExpectedResult":"ERROR"},
+  {"TC_ID":"L007","Execute":"Y","Username":"","Password":"!QAZ0okm","ExpectedResult":"ERROR"},
+  {"TC_ID":"L008","Execute":"Y","Username":"SJKtestuser123@gmail.com","Password":"","ExpectedResult":"ERROR"},
+  {"TC_ID":"L009","Execute":"N","Username":"","Password":"!QAZ0okm","ExpectedResult":"ERROR"}
+]

@@ -1,0 +1,6 @@
+[
+  {"TC_ID":"S001","Execute":"Y","Keyword":"Laptop","ExpectedFound":"Y"},
+  {"TC_ID":"S002","Execute":"Y","Keyword":"Mouse","ExpectedFound":"N"},
+  {"TC_ID":"S003","Execute":"N","Keyword":"Phone","ExpectedFound":"Y"},
+  {"TC_ID":"S004","Execute":"Y","Keyword":"Shoe","ExpectedFound":"Y"}
+]

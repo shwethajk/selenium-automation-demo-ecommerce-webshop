@@ -1,0 +1,24 @@
+# Created at 2026-02-25T23:26:08.975
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '#'.
+
+# Created at 2026-02-25T23:26:08.985
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# There is insufficient memory for the Java Runtime Environment to continue.'.
+
+# Created at 2026-02-25T23:26:08.988
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# Native memory allocation (malloc) failed to allocate 1928528 bytes. Error detail: Chunk::new'.
+
+# Created at 2026-02-25T23:26:08.990
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# An error report file with more information is saved as:'.
+
+# Created at 2026-02-25T23:26:09.457
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# D:\Codes\6_Projects\Final_Project\final_project5\hs_err_pid21988.log'.
+
+# Created at 2026-02-25T23:26:09.458
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '#'.
+
+# Created at 2026-02-25T23:26:09.459
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# Compiler replay data is saved as:'.
+
+# Created at 2026-02-25T23:26:09.524
+Corrupted channel by directly writing to native stream in forked JVM 1. Stream '# D:\Codes\6_Projects\Final_Project\final_project5\replay_pid21988.log'.
+

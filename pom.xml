@@ -1,0 +1,195 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.shwetha</groupId>
+  <artifactId>demowebshop-automation</artifactId>
+  <version>1.0.0</version>
+  <name>Demowebshop Automation</name>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <surefire.version>3.2.5</surefire.version>
+    <selenium.version>4.41.0</selenium.version>
+    <testng.version>7.9.0</testng.version>
+    <extent.version>5.1.2</extent.version>
+    <poi.version>5.2.5</poi.version>
+    <webdrivermanager.version>6.3.3</webdrivermanager.version>
+    <commonsio.version>2.16.1</commonsio.version>
+    <log4j.version>2.23.1</log4j.version>
+    <slf4j.api.version>2.0.12</slf4j.api.version>
+
+  </properties>
+
+  <dependencies>
+    <!-- Selenium -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- DevTools aligned with Chrome 145 -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-devtools-v145</artifactId>
+      <version>${selenium.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- TestNG -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Optional: WebDriverManager (kept, but you’re manually specifying chromedriver path) -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${webdrivermanager.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Apache POI (Excel) -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>${poi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>${poi.version}</version>
+    </dependency>
+
+    <!-- ExtentReports -->
+    <dependency>
+      <groupId>com.aventstack</groupId>
+      <artifactId>extentreports</artifactId>
+      <version>${extent.version}</version>
+    </dependency>
+
+    <!-- IO utils -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commonsio.version}</version>
+    </dependency>
+
+    <!-- Logging: Log4j2 backend for SLF4J (ONLY ONE binding) -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
+      <version>${log4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- If any library compiles against SLF4J API, keep the API (not a binding) -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.api.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.39.Final</version>
+    </dependency>
+
+    <!-- JSON parsing for DataProviders -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.16.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- REMOVE these two to avoid multiple providers:
+         org.apache.logging.log4j:log4j-slf4j-impl
+         org.slf4j:slf4j-simple
+    -->
+
+    <!-- If you truly need Netty, add a recent 4.1.x.
+         Otherwise, omit netty-all to avoid pulling two logging stacks. -->
+    <!--
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.114.Final</version>
+      <scope>test</scope>
+    </dependency>
+    -->
+  </dependencies>
+
+  <build>
+    
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <!-- Surefire: single suite selection by profile -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemPropertyVariables>
+            <suiteXmlFile>testng-smoke.xml</suiteXmlFile>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>smoke</id>
+      <properties>
+        <suiteXmlFile>testng-smoke.xml</suiteXmlFile>
+      </properties>
+    </profile>
+    <profile>
+      <id>sanity</id>
+      <properties>
+        <suiteXmlFile>testng-sanity.xml</suiteXmlFile>
+      </properties>
+    </profile>
+    <profile>
+      <id>regression</id>
+      <properties>
+        <suiteXmlFile>testng-regression.xml</suiteXmlFile>
+      </properties>
+    </profile>
+  </profiles>
+</project>

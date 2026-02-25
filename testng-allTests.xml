@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<!-- <suite name="All Test Suite" verbose="1" parallel="none"> -->
+  <suite name="All Test  Suite" data-provider-thread-count="3" parallel="methods">
+  <listeners>
+    <listener class-name="com.shwetha.framework.listeners.TestListener"/>
+    <!-- remove these two:
+    <listener class-name="com.shwetha.framework.listeners.RetryTransformer"/>
+    <listener class-name="com.shwetha.framework.listeners.ParallelAnnotationTransformer"/>
+    -->
+    <listener class-name="com.shwetha.framework.listeners.UnifiedAnnotationTransformer"/>
+    <listener class-name="com.shwetha.framework.listeners.ParallelSuiteConfigurer"/>
+  </listeners>
+
+  <test name="All Test">
+    <packages>
+      <package name="com.shwetha.tests"></package>
+    </packages>
+  </test>
+</suite>

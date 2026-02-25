@@ -1,0 +1,7 @@
+[
+  {"TC_ID":"C001","Execute":"Y","Email":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","SearchKey":"Laptop","ProductName":"14.1-inch Laptop","ExpectedAdd":"Y"},
+  {"TC_ID":"C002","Execute":"Y","Email":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","SearchKey":"Phone","ProductName":"Smartphone","ExpectedAdd":"Y"},
+  {"TC_ID":"C003","Execute":"Y","Email":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","SearchKey":"Phone","ProductName":"Phone Cover","ExpectedAdd":"Y"},
+  {"TC_ID":"C004","Execute":"Y","Email":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","SearchKey":"Bag","ProductName":"Genuine Leather Handbag with Cell Phone Holder & Many Pockets","ExpectedAdd":"N"},
+  {"TC_ID":"C005","Execute":"N","Email":"SJKtestuser123@gmail.com","Password":"!QAZ0okm","SearchKey":"Bag","ProductName":"Genuine Leather Handbag with Cell Phone Holder & Many Pockets","ExpectedAdd":"Y"}
+]

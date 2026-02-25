@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Debug-Specific Suite" parallel="none" data-provider-thread-count="1" verbose="1">
+
+  <listeners>
+    <listener class-name="com.shwetha.framework.listeners.TestListener"/>
+    <listener class-name="com.shwetha.framework.listeners.UnifiedAnnotationTransformer"/>
+    <listener class-name="com.shwetha.framework.listeners.ParallelSuiteConfigurer"/>
+  </listeners>
+
+  <test name="Debug">
+    <classes>
+
+      <!-- Intenional failing test method (To verify retry methods) -->
+      <class name="com.shwetha.tests.CartTests">
+        <methods>
+          <include name="FailingoutOfStockBagShouldNotAdd"/>
+        </methods>
+      </class>
+
+      <!-- Valid Login test method (with its DataProvider rows (2)) -->
+      <class name="com.shwetha.tests.LoginTests">
+        <methods>
+          <include name="loginValidCase"/>
+          <!-- <include name="printJsonRows"/> -->
+        </methods>
+      </class>
+
+    </classes>
+  </test>
+</suite>

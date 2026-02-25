@@ -1,0 +1,141 @@
+name: CI • Build & Test (Maven + Selenium)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      testDataFile:
+        description: "Choose data source: 'excelData', 'jsonData', or explicit path/dir"
+        required: false
+        default: "jsonData"
+      headless:
+        description: "Run browser headless (true/false)"
+        required: false
+        default: "true"
+      parallelEnabled:
+        description: "Enable TestNG parallel (true/false)"
+        required: false
+        default: "true"
+      suiteParallel:
+        description: "Suite parallel mode (methods|classes|tests|instances|none)"
+        required: false
+        default: "methods"
+      suiteThreads:
+        description: "Suite thread count"
+        required: false
+        default: "4"
+      dpParallel:
+        description: "Parallelize DataProviders (true/false)"
+        required: false
+        default: "true"
+      dpThreads:
+        description: "DataProvider thread count"
+        required: false
+        default: "4"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} • Java 17
+    timeout-minutes: 45
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+
+    env:
+      # Ensure consistent UTF-8 output in Maven/Surefire
+      JAVA_TOOL_OPTIONS: "-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8"
+      # You can override these from workflow_dispatch inputs
+      TEST_DATA_FILE: ${{ github.event.inputs.testDataFile || 'jsonData' }}
+      HEADLESS:       ${{ github.event.inputs.headless || 'true' }}
+      PARALLEL:       ${{ github.event.inputs.parallelEnabled || 'true' }}
+      SUITE_PARALLEL: ${{ github.event.inputs.suiteParallel || 'methods' }}
+      SUITE_THREADS:  ${{ github.event.inputs.suiteThreads || '4' }}
+      DP_PARALLEL:    ${{ github.event.inputs.dpParallel || 'true' }}
+      DP_THREADS:     ${{ github.event.inputs.dpThreads || '4' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Temurin JDK 17 (with Maven cache)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # Install Chrome on ubuntu; on windows, runner already has Chrome
+      - name: Set up Chrome (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Show Chrome version
+        shell: bash
+        run: |
+          if command -v google-chrome >/dev/null 2>&1; then
+            google-chrome --version || true
+          elif command -v chrome >/dev/null 2>&1; then
+            chrome --version || true
+          else
+            echo "Chrome present (Windows runners have it preinstalled)" || true
+          fi
+
+      - name: Maven Validate (resolve & cache)
+        run: mvn -B -ntp -q -DskipTests=true validate
+
+      - name: Run Tests (headless=${{ env.HEADLESS }}, data=${{ env.TEST_DATA_FILE }})
+        run: >
+          mvn -B -ntp test
+          -Dheadless=${{ env.HEADLESS }}
+          -Dparallel.enabled=${{ env.PARALLEL }}
+          -Dsuite.parallel=${{ env.SUITE_PARALLEL }}
+          -Dsuite.thread.count=${{ env.SUITE_THREADS }}
+          -Ddp.parallel=${{ env.DP_PARALLEL }}
+          -Dsuite.dp.thread.count=${{ env.DP_THREADS }}
+          -DtestDataFile=${{ env.TEST_DATA_FILE }}
+
+      # Collect common artifacts regardless of pass/fail
+      - name: Archive Extent Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-reports-${{ matrix.os }}
+          path: |
+            reports/**/*.html
+            reports/**/*.css
+            reports/**/*.js
+            reports/**/*.png
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Archive Surefire Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports-${{ matrix.os }}
+          path: target/surefire-reports/**
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Archive Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ matrix.os }}
+          path: |
+            target/screenshots/**
+            logs/**
+          if-no-files-found: warn
+          retention-days: 14
