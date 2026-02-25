@@ -88,12 +88,13 @@ mvn clean test -Pregression # runs testng-regression.xml
 mvn clean test -Psmoke
 
 ## Reports & Screenshots
-- Extent HTML report: `target/extent/extent.html`
+- Extent HTML report: `report/extent.html`
 - Screenshots on failure: `target/screenshots/`
 
 ## Data-driven
-- Example Excel file: `src/test/resources/testdata/LoginData.xlsx` (sheet: `Login`)
-- DataProvider class: `com.shwetha.framework.utils.DataProviders` (example provider `loginData`)
+- Excel file: `src/test/resources/testdata/EXCEL/TestData.xlsx` (sheet: `Login`, `Cart`, etc)
+- Json file: `src/test/resources/testdata/JSON/ .xlsx` (ex: `Login`, `Cart`, etc)
+- DataProvider class: `com.shwetha.framework.utils.DataProvidersMap` (example provider `validLogin`)
 
 ## Suites
 - `testng-smoke.xml` → `com.shwetha.tests.SmokeTests`
