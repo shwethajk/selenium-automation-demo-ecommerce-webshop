@@ -7,50 +7,6 @@ mvn clean test -Pregression
 ***
 
 
-## What’s inside (high level)
-
-    demowebshop-automation/
-    ├─ pom.xml
-    ├─ docker-compose.yml                 # Selenium Grid via Docker
-    ├─ extent-config.xml                  # Extent report config
-    ├─ testng-smoke.xml                   # Smoke suite (small)
-    ├─ testng-sanity.xml                  # Sanity suite (mid)
-    ├─ testng-regression.xml              # Regression suite (max)
-    ├─ src/test/resources/
-    │  ├─ config.properties               # All configuration here
-    │  └─ testdata/
-    │     └─ LoginData.xlsx               # Example Excel sheet
-    ├─ src/test/java/com/shwetha/
-    │  ├─ framework/
-    │  │  ├─ base/BaseTests.java          # Shared driver lifecycle
-    │  │  ├─ driver/DriverFactory.java    # Local & Grid/Docker driver
-    │  │  ├─ listeners/
-    │  │  │  ├─ RetryAnalyzer.java        # Retry failed tests (once)
-    │  │  │  └─ TestListener.java         # Extent + screenshots on 
-    │  │  ├─ reporting/
-    │  │  │  ├─ ExtentManager.java
-    │  │  │  └─ ExtentTestManager.java
-    │  │  └─ utils/
-    │  │     ├─ ConfigReader.java
-    │  │     ├─ ExcelUtils.java
-    │  │     ├─ DataProviders.java
-    │  │     └─ TestUtils.java            # Screenshot helper
-    │  ├─ pageobjects/
-    │  │  ├─ BasePage.java              
-    │  │  ├─ CartPage.java              
-    │  │  ├─ HomePage.java              
-    │  │  ├─ LoginPage.java              
-    │  │  ├─ ProductPage.java              
-    │  │  ├─ SearchResultsPage.java              
-    │  └─ tests/
-    │     ├─ CartTests.java              
-    │     ├─ LoginTests.java              
-    │     ├─ PdpTests.java              
-    │     ├─ SearchTests.java              
-    └─ README.md
-
-***
-
 ## Key implementations 
 
 ### 1) **Segregated suites** (3 different test files)
@@ -66,10 +22,6 @@ mvn clean test -Pregression
 *   `pom.xml` pins versions, brings `selenium-java`, `testng`, `extentreports`, `poi/poi-ooxml` (Excel), `webdrivermanager`, and `commons-io`.
 *   `maven-surefire-plugin` configured to pick suite files via Maven **profiles**.
 
-Run:
-mvn clean test -Psmoke
-mvn clean test -Psanity
-mvn clean test -Pregression
 
 ### 3) **Data-driven testing (Excel / DataProvider)**
 
@@ -176,15 +128,3 @@ Then view:
 *   **Sanity**: invalid login + add/remove cart (minimal flows, retried once)
 *   **Regression**: multi-result add-to-cart, out-of-stock verification, negative search, optional category filter (no assertion for resilience)
 
-If you’d like me to **plug DataProvider-based login tests** directly into smoke/sanity and split the Excel into **Valid**/**Invalid** sheets (or add `@Parameters` for credentials), I can update the project and re-generate the zip.
-
-***
-
-## Next tweaks you might want
-
-*   Add **parallel** execution per suite
-*   Add **grouping** (e.g., `@Test(groups={"smoke"})`) if you want to run groups from a combined suite
-*   Add **log4j/slf4j** logging
-*   Wire **Allure** alongside Extent (if you like)
-
-***

@@ -1,6 +1,7 @@
 
 📑 E-commerce Test Cases
 
+
 | **TC ID** | **Test Case Description**                | **Pre-Conditions**            | **Test Steps**                                                                                | **Test Data**                               | **Expected Result**                                                 | **Actual Result** | **Status (Pass/Fail)** |
 | --------- | ---------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------- | ----------------- | ---------------------- |
 | TC001     | Verify user login with valid credentials | User is registered            | 1. Navigate to login page <br> 2. Enter valid username & password <br> 3. Click Login         | Username: testuser <br> Password: Test\@123 | User should be successfully logged in and redirected to dashboard   | –                 | –                      |
@@ -12,7 +13,6 @@
 | TC007     | Verify checkout process without payment  | Item added to cart            | 1. Navigate to cart <br> 2. Click Checkout <br> 3. Enter shipping details <br> 4. Place order | Name: John Doe <br> Address: Bangalore      | Order should be placed successfully, confirmation message displayed | –                 | –                      |
 | TC008     | Verify logout functionality              | User logged in                | 1. Click on Logout button                                                                     | N/A                                         | User should be logged out and redirected to homepage                | –                 | –                      |
 
----
 ---
 
 ## 🛒 Project Context
@@ -26,7 +26,7 @@ The focus is on:
 * **Smoke tests** (basic flows)
 * **Regression tests** (functional flows like login, add to cart, checkout)
 
-You’ll create **test cases in Excel**, then automate them in **Selenium with Java + TestNG**.
+Design **test cases in Excel/Json**, then automate them in **Selenium with Java + TestNG**.
 
 ---
 
@@ -151,15 +151,7 @@ User should be logged out and redirected to homepage
 
 
 
-
-Great question, Shwetha!  
-You want to know:
-
 > **How the test cases (TC001–TC008) were separated into Smoke, Sanity, and Regression suites in your automation project.**
-
-I’ll explain **exactly how your tests were grouped**, **why**, and **where (suite XML + Java classes)** the segregation happens.
-
-***
 
 # ✅ **1. Mapping Manual Test Cases → Test Suites**
 
@@ -212,9 +204,9 @@ Regression covers all detailed flows and combinations.
 
 ***
 
-# ✅ **2. How this segregation is implemented in your framework**
+# ✅ **2. How this segregation is implemented in the framework**
 
-Your framework segregates tests in **two ways**:
+The framework segregates tests in **two ways**:
 
 ***
 
@@ -298,31 +290,26 @@ Contains:
 
 # ⚡ How Maven runs the correct suite
 
-You run test suites using **profiles** in `pom.xml`:
+Run test suites using **profiles** in `pom.xml`:
 
 ### Smoke
 
-```bash
-mvn clean test -Psmoke
-```
+    mvn clean test -Psmoke
+
 
 ### Sanity
 
-```bash
-mvn clean test -Psanity
-```
+    mvn clean test -Psanity
 
 ### Regression
 
-```bash
-mvn clean test -Pregression
-```
+    mvn clean test -Pregression
 
 Each profile sets:
 
-```xml
-<suiteXmlFile>testng-smoke.xml</suiteXmlFile>
-```
+    ```xml
+    <suiteXmlFile>testng-smoke.xml</suiteXmlFile>
+    ```
 
 ***
 
@@ -340,12 +327,6 @@ Each profile sets:
 | TC008     | RegressionTests               | testng-regression.xml | Regression          |
 
 ***
-
-# ✨ If you want…
-
-I can generate an **Excel test case sheet**, **traceability matrix**, or a **visual suite breakdown diagram**.  
-Just say **"generate Excel"** or **"generate diagram"**!
-
 
 
 

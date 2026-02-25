@@ -1,15 +1,75 @@
-Demowebshop Selenium TestNG Framework
 
-A drop-in, working Maven project for **TestNG + Selenium** with:
-- Data-driven testing (Excel/Apache POI)
+# Demowebshop Selenium TestNG Framework
+
+Maven project for **TestNG + Selenium** with:
+- Data-driven testing (JSON/Excel/Apache POI)
 - Config via `config.properties`
 - Local run or Selenium Grid (local or Docker)
 - Retry on failure
 - Screenshots on failure
 - Extent HTML report
-- Three TestNG suites: **smoke**, **sanity**, **regression**
+- Different TestNG suites: **smoke**, **sanity**, **regression**, etc
 
-## Prerequisites
+
+## Project Structure (high level)
+
+    demowebshop-automation/
+    ├─ pom.xml
+    ├─ docker-compose.yml                 # Selenium Grid via Docker
+    ├─ extent-config.xml                  # Extent report config
+    ├─ testng-smoke.xml                   # Smoke suite (small)
+    ├─ testng-sanity.xml                  # Sanity suite (mid)
+    ├─ testng-regression.xml              # Regression suite (max)
+    ├─ src/test/resources/
+    │  ├─ config.properties               # All configuration here
+    │  ├─ log4j2.xml                      # log4j2 configuration 
+    │  └─ testdata/
+    │     ├─ EXCEL              
+    │     │  └─ TestData.xlsx             # Excel data
+    │     └─ JSON              
+    │        └─ cart.json                 # json data
+    │        └─ login.json              
+    │        └─ pdp.json               
+    │        └─ search.json              
+    │        └─ search_filter.json               
+    ├─ src/test/java/com/shwetha/
+    │  ├─ framework/
+    │  │  ├─ base/BaseTests.java          # Shared driver lifecycle
+    │  │  ├─ driver/   
+    │  │  │  ├─ DriverFactory.java        # Local & Grid/Docker driver
+    │  │  │  ├─ DriverRegistry.java        
+    │  │  ├─ listeners/
+    │  │  │  ├─ ParallelSuiteConfigurer.java  # Retry failed tests (once)
+    │  │  │  ├─ RetryAnalyzer.java        
+    │  │  │  ├─ RetryContext.java        # Retry failed tests (once)
+    │  │  │  ├─ UnifiedAnnotatinTransformer.java        
+    │  │  │  └─ TestListener.java         # Extent Report + log + screenshots on failure
+    │  │  └─ utils/
+    │  │     ├─ ConfigReader.java
+    │  │     ├─ DataProvidersMap.java
+    │  │     ├─ DataRepo.java
+    │  │     ├─ ExcelUtils.java
+    │  │     ├─ FileUtils.java
+    │  │     ├─ JsonData.java
+    │  │     └─ ScreenshotUtil.java      # Screenshot helper
+    │  ├─ pageobjects/
+    │  │  ├─ BasePage.java              
+    │  │  ├─ CartPage.java              
+    │  │  ├─ HomePage.java              
+    │  │  ├─ LoginPage.java              
+    │  │  ├─ ProductPage.java              
+    │  │  └─ SearchResultsPage.java       
+    │  └─ tests/
+    │     ├─ CartTests.java              
+    │     ├─ LoginTests.java              
+    │     ├─ PdpTests.java              
+    │     └─ SearchTests.java  
+    ├─ .github/workflows/
+    │  └─ CI_workflow.yml
+    └─ README.md
+
+
+## Prerequisites (local)
 - JDK 17+
 - Maven 3.9+
 - Chrome browser installed
@@ -22,12 +82,10 @@ mvn clean test -Psanity     # runs testng-sanity.xml
 mvn clean test -Pregression # runs testng-regression.xml
 
 ## Run on Local Selenium Grid (Docker)
-1. Start grid:
-docker compose up -d
+1. Start grid: ocker compose up -d
 2. Set `run.mode=grid` in `src/test/resources/config.properties` (default grid URL `http://localhost:4444/wd/hub`)
 3. Run any suite:
 mvn clean test -Psmoke
-```
 
 ## Reports & Screenshots
 - Extent HTML report: `target/extent/extent.html`
