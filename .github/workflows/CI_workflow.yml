@@ -48,10 +48,16 @@ jobs:
     name: Test on ${{ matrix.os }} • Java 17
     timeout-minutes: 45
     runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash
+        
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest ]
+        
 
     env:
       JAVA_TOOL_OPTIONS: "-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8"
