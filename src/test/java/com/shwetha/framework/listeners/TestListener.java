@@ -417,11 +417,13 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
                 + "\n***********************************************************************\n", true);
 
         File extentReport = new File(pathOfExtentReport);
+        /*
         try {
             Desktop.getDesktop().browse(extentReport.toURI());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
         try {
             com.shwetha.framework.driver.DriverRegistry.killAll();
         } catch (Throwable ignore) {
