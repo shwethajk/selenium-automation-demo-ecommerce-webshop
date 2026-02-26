@@ -415,7 +415,8 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
         org.testng.Reporter.log("\n ==== Suite END: {} ==== " + suite.getName() + msg, true); // true => also log to
                                                                                               // console
         extent.flush();
-        String pathOfExtentReport = System.getProperty("user.dir") + "\\reports\\" + repName;
+       // String pathOfExtentReport = System.getProperty("user.dir") + "\\reports\\" + repName;
+        String pathOfExtentReport = System.getProperty("user.dir") + "/reports/" + repName;
         org.testng.Reporter.log("📷  Report saved at: " + pathOfExtentReport
                 + "\n***********************************************************************\n", true);
 
