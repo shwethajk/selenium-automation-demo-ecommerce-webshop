@@ -54,9 +54,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
 
     env:
-      # Ensure consistent UTF-8 output in Maven/Surefire
       JAVA_TOOL_OPTIONS: "-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8"
-      # You can override these from workflow_dispatch inputs
       TEST_DATA_FILE: ${{ github.event.inputs.testDataFile || 'jsonData' }}
       HEADLESS:       ${{ github.event.inputs.headless || 'true' }}
       PARALLEL:       ${{ github.event.inputs.parallelEnabled || 'true' }}
@@ -76,7 +74,6 @@ jobs:
           java-version: '17'
           cache: maven
 
-      # Install Chrome on ubuntu; on windows, runner already has Chrome
       - name: Set up Chrome (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         uses: browser-actions/setup-chrome@v1
@@ -98,6 +95,7 @@ jobs:
       - name: Run Tests (headless=${{ env.HEADLESS }}, data=${{ env.TEST_DATA_FILE }})
         run: >
           mvn -B -ntp test
+          -Dsurefire.suiteXmlFiles=testng.xml
           -Dheadless=${{ env.HEADLESS }}
           -Dparallel.enabled=${{ env.PARALLEL }}
           -Dsuite.parallel=${{ env.SUITE_PARALLEL }}
@@ -106,7 +104,6 @@ jobs:
           -Dsuite.dp.thread.count=${{ env.DP_THREADS }}
           -DtestDataFile=${{ env.TEST_DATA_FILE }}
 
-      # Collect common artifacts regardless of pass/fail
       - name: Archive Extent Reports
         if: always()
         uses: actions/upload-artifact@v4
