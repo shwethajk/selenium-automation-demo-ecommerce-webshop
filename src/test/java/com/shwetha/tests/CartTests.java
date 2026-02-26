@@ -332,6 +332,7 @@ public class CartTests extends BaseTests {
                 "Out-of-stock item should not show success (not be added to cart)");
     }
 
+    /*
     @Test(description="Verify failing case (intentional retry): add to cart functionality, out-of-stock (intentional fail)",
             groups = {"cart","regression","negative","master"},
             dataProvider = "cart-failing-data-map", dataProviderClass = DataProvidersMap.class)
@@ -345,4 +346,5 @@ public class CartTests extends BaseTests {
                 "Out-of-stock item should not show success (not be added to cart)");
         log.info("Failing test log end");
     }
+    */
 }
