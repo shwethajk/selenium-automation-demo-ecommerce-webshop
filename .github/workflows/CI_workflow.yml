@@ -95,7 +95,7 @@ jobs:
       - name: Run Tests (headless=${{ env.HEADLESS }}, data=${{ env.TEST_DATA_FILE }})
         run: >
           mvn -B -ntp test
-          -Dsurefire.suiteXmlFiles=testng.xml
+          -Dsurefire.suiteXmlFiles=testng-allTests.xml
           -Dheadless=${{ env.HEADLESS }}
           -Dparallel.enabled=${{ env.PARALLEL }}
           -Dsuite.parallel=${{ env.SUITE_PARALLEL }}
