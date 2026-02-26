@@ -418,29 +418,20 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
         org.testng.Reporter.log("\n ==== Suite END: {} ==== " + suite.getName() + msg, true); // true => also log to
                                                                                               // console
         extent.flush();
-       // String pathOfExtentReport = System.getProperty("user.dir") + "\\reports\\" + repName;
-     //  String pathOfExtentReport = System.getProperty("user.dir") + "/reports/" + repName;
-      // org.testng.Reporter.log("📷  Report saved at: " + pathOfExtentReport
-                // + "\n***********************************************************************\n", true);
-
         String pathOfExtentReport = reportPath.toString();
-
-org.testng.Reporter.log(
+        org.testng.Reporter.log(
         "📷  Report saved at: " + pathOfExtentReport
-                + "\n***********************************************************************\n",
-        true
-);
+                + "\n***********************************************************************\n", true);
         
-        
-        extent.flush();
+        String env = System.getProperty("env", "qa");
 
-/*
+        if (!env.equalsIgnoreCase("ci")) {
         try {
             Desktop.getDesktop().browse(extentReport.toURI());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
+        }
         try {
             com.shwetha.framework.driver.DriverRegistry.killAll();
         } catch (Throwable ignore) {
