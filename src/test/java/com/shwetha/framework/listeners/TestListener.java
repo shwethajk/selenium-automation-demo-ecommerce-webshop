@@ -424,7 +424,7 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
                 + "\n***********************************************************************\n", true);
         
         String env = System.getProperty("env", "qa");
-
+        File extentReport = new File(pathOfExtrntReport);
         if (!env.equalsIgnoreCase("ci")) {
         try {
             Desktop.getDesktop().browse(extentReport.toURI());
