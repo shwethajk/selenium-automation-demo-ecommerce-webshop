@@ -100,14 +100,12 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
         int effTC = getEffectiveSuiteThreads();
         int effDP = getEffectiveDpThreads();
         String headlessNess = ConfigReader.get("headless", "false");
-        if(effMode.equalsIgnoreCase("Parallel")
-        Reporter.log(String.format(
+        if(effMode.equalsIgnoreCase("Parallel"))
+            Reporter.log(String.format(
                 "🧭 EFFECTIVE PARALLEL -> mode = %s, suite-level = %s, threadCount = %d, dpThreadCount = %d, headless = %s\n",
                 effMode, suiteLevel, effTC, effDP, headlessNess), true);
         else
-            Reporter.log(String.format(
-                "🧭 EFFECTIVE PARALLEL -> mode = %s, headless = %s\n",
-                effMode, headlessNess), true);
+            Reporter.log(String.format("🧭 EFFECTIVE PARALLEL -> mode = %s, headless = %s\n", effMode, headlessNess), true);
     }
 
     @Override
