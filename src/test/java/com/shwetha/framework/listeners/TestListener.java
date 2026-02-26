@@ -416,12 +416,22 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
                                                                                               // console
         extent.flush();
        // String pathOfExtentReport = System.getProperty("user.dir") + "\\reports\\" + repName;
-        String pathOfExtentReport = System.getProperty("user.dir") + "/reports/" + repName;
-        org.testng.Reporter.log("📷  Report saved at: " + pathOfExtentReport
-                + "\n***********************************************************************\n", true);
+     //  String pathOfExtentReport = System.getProperty("user.dir") + "/reports/" + repName;
+      // org.testng.Reporter.log("📷  Report saved at: " + pathOfExtentReport
+                 + "\n***********************************************************************\n", true);
 
-        File extentReport = new File(pathOfExtentReport);
-        /*
+        String pathOfExtentReport = reportPath.toString();
+
+org.testng.Reporter.log(
+        "📷  Report saved at: " + pathOfExtentReport
+                + "\n***********************************************************************\n",
+        true
+);
+        
+        
+        extent.flush();
+
+
         try {
             Desktop.getDesktop().browse(extentReport.toURI());
         } catch (IOException e) {
