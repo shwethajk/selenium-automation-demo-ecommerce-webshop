@@ -110,7 +110,7 @@ jobs:
         with:
           name: extent-reports-${{ matrix.os }}
           path: |
-            reports/*.html
+            reports/**/*.html
           if-no-files-found: warn
           retention-days: 14
 
