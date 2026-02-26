@@ -119,8 +119,11 @@ public class TestListener extends BaseTests implements ITestListener, ISuiteList
         // repName = "Extent2-Test-Report-" + ".html"; // you can also suffix timestamp
         // if you want
         repName = "ExtentTest-Report-" + timeStamp + ".html";
-        sparkReporter = new ExtentSparkReporter(".\\reports\\" + repName); // specify location of the report
+      //  sparkReporter = new ExtentSparkReporter(".\\reports\\" + repName); // specify location of the report
 
+
+        sparkReporter = new ExtentSparkReporter("reports/" + repName); // specify location of the report
+        
         // Compute absolute report path safely (for showing screenshot on report)
         reportPath = Paths.get(System.getProperty("user.dir"), "reports", repName).toAbsolutePath().normalize();
 
