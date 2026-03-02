@@ -415,7 +415,6 @@ public class DriverFactory {
 
                 ChromeDriverService svc = new ChromeDriverService.Builder()
                         .withSilent(true)
-                        .usingDriverExecutable(safeFileOrNull(driverPath))
                         .withLogOutput(devNull())
                         .usingAnyFreePort()
                         .build();
