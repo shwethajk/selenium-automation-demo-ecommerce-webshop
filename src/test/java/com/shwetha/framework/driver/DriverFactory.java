@@ -400,7 +400,7 @@ public class DriverFactory {
         boolean parallelEnabled = Boolean.parseBoolean(ConfigReader.get("parallel.enabled", "false"));
         boolean useCiDefaults   = isCiEnvironment() || parallelEnabled;
         if (useCiDefaults) {
-            return parseIntOr(ConfigReader.get("wait.implicit.ci.seconds", "3"), 3);
+            return parseIntOr(ConfigReader.get("wait.implicit.ci.seconds", "5"), 5);
         } else {
             return parseIntOr(ConfigReader.get("wait.implicit.local.seconds", "0"), 0);
         }
