@@ -24,14 +24,14 @@ public class BaseTests {
     public final Logger log = LogManager.getLogger(getClass());
 
     /** 
-     * supports BOTH modes and pick at runtime:
+     * We support BOTH modes and pick at runtime:
      *  - ThreadLocal drivers (for CI / parallel)
      *  - Single shared driver (for local lightweight runs)
      */
     private static final ThreadLocal<WebDriver> TL_DRIVER = new ThreadLocal<>();
     private static volatile WebDriver SHARED_DRIVER = null;
 
-    // Expose driver to tests 
+    /** Expose driver to tests (unchanged signature). */
     public static WebDriver getDriver() { 
         return useThreadLocal() ? TL_DRIVER.get() : SHARED_DRIVER; 
     }
@@ -82,13 +82,13 @@ public class BaseTests {
             log.info(" • DataProvider Thread Count : " + dpThreads);
         }
         if(useThreadLocal()){
-            log.info("Using threadLocal driver (CI/Parallel)\n");
+            log.info("Using threadLocal driver (CI/Parallel)");
             // org.testng.Reporter.log("Using threadLocal driver (CI/Parallel)\n", true);
             System.out.println("Using threadLocal driver (CI/Parallel)");
         }
         else{
-            log.info("Using shared local driver\n");
-            System.out.println("Using local driver");
+            log.info("Using shared local driver");
+            System.out.println("Using shared local driver");
         }
         log.info("=====================================================");
     }
@@ -112,12 +112,11 @@ public class BaseTests {
             WebDriver d = DriverFactory.createDriver();
             setDriver(d);
         }
-
-        // In local single-driver mode, sanitize session between tests
+        // In local single-driver mode, we sanitize session between tests
         if (!useThreadLocal()) {
             try { getDriver().manage().deleteAllCookies(); } catch (Throwable ignore) {}
         }
-        System.out.println("THREAD " + Thread.currentThread().getId() + " -> WebDriver started");
+        System.out.println("THREAD " + Thread.currentThread().getId() + " -> WebDriver Created");
     }
 
     @AfterMethod(alwaysRun = true)
@@ -170,11 +169,21 @@ public class BaseTests {
     /** Returns true only if we should run with ThreadLocal drivers (CI or parallel). */
     public static boolean useThreadLocal() {
         // Priority:
-        //  1) If it's a CI environment -> ThreadLocal
+        //  0) If it's a CI environment -> ThreadLocal
+        //  1) If not CI and explicitely mentioned as 'noThreadMode' -> local
         //  2) Else if parallel.enabled=true -> ThreadLocal
         //  3) Else -> single shared driver (local)
+
         if (isCiEnvironment()) return true;
-        return isEffectivelyParallel();
+
+        boolean noThreadMode = Boolean.parseBoolean(ConfigReader.get("noThreadMode", "true"));
+        if(noThreadMode && !isCiEnvironment()) {
+            return false;
+        }
+        else{
+            return true;
+        }
+        // return isEffectivelyParallel();
     }
 
     /** Detects common CI environments so you don’t have to toggle anything manually. */
