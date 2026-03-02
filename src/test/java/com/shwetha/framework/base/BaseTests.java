@@ -117,6 +117,7 @@ public class BaseTests {
         if (!useThreadLocal()) {
             try { getDriver().manage().deleteAllCookies(); } catch (Throwable ignore) {}
         }
+        System.out.println("THREAD " + Thread.currentThread().getId() + " -> WebDriver started");
     }
 
     @AfterMethod(alwaysRun = true)
