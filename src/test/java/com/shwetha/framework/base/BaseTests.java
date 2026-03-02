@@ -82,9 +82,9 @@ public class BaseTests {
             log.info(" • DataProvider Thread Count : " + dpThreads);
         }
         if(useThreadLocal()){
-            log.info("Using shared driver (CI/Parallel)\n");
-            // org.testng.Reporter.log("Using shared driver (CI/Parallel)\n", true);
-            System.out.println("Using shared driver (CI/Parallel)");
+            log.info("Using threadLocal driver (CI/Parallel)\n");
+            // org.testng.Reporter.log("Using threadLocal driver (CI/Parallel)\n", true);
+            System.out.println("Using threadLocal driver (CI/Parallel)");
         }
         else{
             log.info("Using shared local driver\n");
