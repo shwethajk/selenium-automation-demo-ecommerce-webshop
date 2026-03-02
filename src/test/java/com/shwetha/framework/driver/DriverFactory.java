@@ -379,16 +379,12 @@ public class DriverFactory {
     }
 
     private static WebDriver createLocalWithRetry(boolean headless) {
-        String driverPath = ConfigReader.get("webdriver.chrome.driver",
-                System.getProperty("os.name").toLowerCase().contains("win")
-                        ? "C:\\\\chromedriver-win64\\\\chromedriver_145_2.exe"
-                        : "");
-
-        if (driverPath != null && !driverPath.isBlank()) {
-            System.setProperty("webdriver.chrome.driver", driverPath);
-        } else {
+        
+       // if (driverPath != null && !driverPath.isBlank()) {
+        //    System.setProperty("webdriver.chrome.driver", driverPath);
+     //   } else {
             try { WebDriverManager.chromedriver().setup(); } catch (Throwable ignore) {}
-        }
+       // }
 
         // quiet chromedriver and swallow its logs
         ChromeDriverService baseService = buildSilentService(driverPath);
