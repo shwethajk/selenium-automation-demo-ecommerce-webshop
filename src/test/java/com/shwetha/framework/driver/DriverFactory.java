@@ -341,4 +341,45 @@ public class DriverFactory {
     private static String safeTrim(String s) {
         return s == null ? "" : s.trim();
     }
+
+    
+    private static boolean isCiEnvironment() {
+        Map<String, String> env = System.getenv();
+        return "true".equalsIgnoreCase(env.getOrDefault("CI", "false"))
+                || env.containsKey("JENKINS_HOME")
+                || "true".equalsIgnoreCase(env.getOrDefault("GITHUB_ACTIONS", "false"))
+                || "true".equalsIgnoreCase(env.getOrDefault("GITLAB_CI", "false"))
+                || env.containsKey("BUILD_NUMBER")
+                || env.containsKey("TEAMCITY_VERSION")
+                || env.containsKey("BITBUCKET_BUILD_NUMBER")
+                || env.containsKey("AZURE_HTTP_USER_AGENT");
+    }
+
+    private static String defaultHeadless() {
+        // In CI, default headless=true unless explicitly overridden
+        return isCiEnvironment() ? "true" : "false";
+    }
+
+    private static int implicitWaitSeconds() {
+        // Tiny implicit wait ONLY for CI/parallel to absorb jitter without impacting local/dev perf
+        boolean parallelEnabled = Boolean.parseBoolean(ConfigReader.get("parallel.enabled", "false"));
+        boolean useCiDefaults   = isCiEnvironment() || parallelEnabled;
+        if (useCiDefaults) {
+            return parseIntOr(ConfigReader.get("wait.implicit.ci.seconds", "3"), 3);
+        } else {
+            return parseIntOr(ConfigReader.get("wait.implicit.local.seconds", "0"), 0);
+        }
+    }
+
+    private static int pageLoadTimeoutSeconds() {
+        return parseIntOr(ConfigReader.get("wait.pageload.seconds", "90"), 90);
+    }
+
+    private static int scriptTimeoutSeconds() {
+        return parseIntOr(ConfigReader.get("wait.script.seconds", "60"), 60);
+    }
+
+    private static int parseIntOr(String s, int def) {
+        try { return Integer.parseInt(String.valueOf(s).trim()); } catch (Exception e) { return def; }
+    }
 }
