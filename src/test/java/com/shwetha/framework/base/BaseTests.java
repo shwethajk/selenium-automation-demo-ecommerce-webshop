@@ -319,11 +319,13 @@ public class BaseTests {
         if (getDriver() == null) {
             WebDriver d = DriverFactory.createDriver();
             setDriver(d);
+            /*
             if (isEffectivelyParallel()) {
                 System.out.println("THREAD " + Thread.currentThread().getId() + " -> WebDriver Session Created");
             } else {
                 System.out.println("LOCAL -> Shared WebDriver Session Created");
             }
+            */
         }
 
         // In local single-driver mode, we sanitize session between tests
