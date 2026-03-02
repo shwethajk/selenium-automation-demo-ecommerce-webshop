@@ -387,7 +387,7 @@ public class DriverFactory {
        // }
 
         // quiet chromedriver and swallow its logs
-        ChromeDriverService baseService = buildSilentService(driverPath);
+        ChromeDriverService baseService = buildSilentService();
 
         int attempts = 0;
         RuntimeException last = null;
@@ -500,14 +500,14 @@ public class DriverFactory {
         }
     }
 
-    private static ChromeDriverService buildSilentService(String driverExe) {
+    private static ChromeDriverService buildSilentService() {
         try {
             ChromeDriverService.Builder b = new ChromeDriverService.Builder()
                     .withSilent(true)
                     .withLogOutput(devNull())
                     .usingAnyFreePort();
 
-            File exe = safeFileOrNull(driverExe);
+            File exe = safeFileOrNull();
             if (exe != null) b.usingDriverExecutable(exe);
             return b.build();
 
