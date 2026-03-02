@@ -179,7 +179,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.Map;
 
 public class DriverFactory {
 
@@ -191,7 +190,7 @@ public class DriverFactory {
             throw new RuntimeException("Only Chrome is configured. Requested: " + browser);
         }
         // return "grid".equals(mode) ? createRemote(headless) : createLocalWithRetry();
-        WebDriver d = "grid".equals(mode) ? createRemote(headless) : createLocalWithRetry();
+        WebDriver d = "grid".equals(mode) ? createRemote(headless) : createLocalWithRetry(headless);
         configureTimeouts(d); // NEW: uniform timeouts/implicit wait per env
         return d;
     }
@@ -208,7 +207,7 @@ public class DriverFactory {
         }
     }
 
-    private static WebDriver createLocalWithRetry() {
+    private static WebDriver createLocalWithRetry(boolean headless) {
         // String driverPath = ConfigReader.get("webdriver.chrome.driver",
         // "C:\\chromedriver-win64\\chromedriver_145_2.exe");
         // if (driverPath != null && !driverPath.isBlank()) {
@@ -231,17 +230,16 @@ public class DriverFactory {
             attempts++;
             try {
                 // Build base options each attempt
-                ChromeOptions options = baseOptions(false); // do NOT set headless here
+                ChromeOptions options = baseOptions(headless); 
                 // Decide headless flavor per attempt
-                boolean headless = Boolean.parseBoolean(ConfigReader.get("headless", "false").trim());
-                if (headless) {
-                    if (attempts < 3) {
-                        options.addArguments("--headless=new"); // default on attempts 1 & 2
-                    } else {
-                        options.addArguments("--headless"); // legacy fallback on attempt 3
-                    }
-                    options.addArguments("--window-size=1920,1080");
-                }
+                // if (headless) {
+                //     if (attempts < 3) {
+                //         options.addArguments("--headless=new"); // default on attempts 1 & 2
+                //     } else {
+                //         options.addArguments("--headless"); // legacy fallback on attempt 3
+                //     }
+                //     options.addArguments("--window-size=1920,1080");
+                // }
                 // per-attempt temp profile (isolates DevToolsActivePort/profile races)
                 Path tmp = Path.of(System.getProperty("java.io.tmpdir"),
                         "cd-" + Thread.currentThread().getId() + "-" + attempts);
@@ -255,8 +253,11 @@ public class DriverFactory {
 
                 // escalate only on retries
                 if (attempts == 2) {
-                    options.addArguments("--disable-gpu", "--disable-software-rasterizer",
-                            "--disable-extensions", "--disable-background-networking");
+                    // options.addArguments("--disable-gpu", "--disable-software-rasterizer",
+                            // "--disable-extensions", "--disable-background-networking");
+                    options.addArguments("--disable-software-rasterizer",
+                                         "--disable-extensions",
+                                         "--disable-background-networking");
                 } else if (attempts == 3) {
                     options.addArguments("--no-sandbox");
                 }
@@ -272,8 +273,8 @@ public class DriverFactory {
 
                 com.shwetha.framework.driver.DriverRegistry.register(d); // parallel clean
 
-                d.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(90));
-                d.manage().window().maximize();
+                // d.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(90));
+                try { d.manage().window().maximize(); } catch (Throwable ignore) {}
                 return d;
             } catch (RuntimeException ex) {
                 last = ex;
@@ -293,14 +294,45 @@ public class DriverFactory {
         throw last != null ? last : new RuntimeException("Chrome did not start");
     }
 
-    private static ChromeOptions baseOptions(boolean ignoredHeadlessFlag) {
+    private static ChromeOptions baseOptions(boolean headless) {
         ChromeOptions options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
-        options.addArguments("--ignore-certificate-errors");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--remote-debugging-port=0");
-        options.addArguments("--no-first-run", "--no-default-browser-check");
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+
+        // options.addArguments("--ignore-certificate-errors");
+        // options.addArguments("--disable-dev-shm-usage");
+        // options.addArguments("--remote-allow-origins=*");
+        // options.addArguments("--remote-debugging-port=0");
+        // options.addArguments("--no-first-run", "--no-default-browser-check");
+        
+        // Core stability flags
+        options.addArguments(
+                "--ignore-certificate-errors",
+                "--disable-dev-shm-usage",              // /dev/shm constraints in containers
+                "--remote-allow-origins=*",
+                "--remote-debugging-port=0",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--disable-background-timer-throttling",
+                "--disable-renderer-backgrounding",
+                "--disable-features=Translate,CalculateNativeWinOcclusion",
+                "--lang=en-US"
+        );
+
+        if (headless) {
+            // Headless stability
+            options.addArguments("--headless=new", "--window-size=1920,1080", "--disable-gpu");
+            if (isCiEnvironment()) {
+                options.addArguments("--no-sandbox"); // needed for many CI Linux containers
+            }
+        }
+
+        // Optional override if Chrome binary is custom (kept compatible with your config approach)
+        String chromeBin = ConfigReader.get("chrome.binary", "").trim();
+        if (!chromeBin.isBlank()) {
+            options.setBinary(chromeBin);
+        }
+
         return options;
     }
 
