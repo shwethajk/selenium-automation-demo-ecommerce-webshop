@@ -180,7 +180,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import hava.util.Map;
-import org.openqa.selenium.PageLoadStratergy;
+import org.openqa.selenium.PageLoadStrategy;
 
 public class DriverFactory {
 
