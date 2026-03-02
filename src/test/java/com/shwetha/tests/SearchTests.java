@@ -167,7 +167,7 @@ public class SearchTests extends BaseTests {
         Assert.assertFalse(results.hasAnyMatch(query), "Expected no '" + query + "'");
     }
 
-    /*
+    
     @Test(description="Verify product filter functionality",
             groups = {"search","filter","sanity","regression","master"},
             dataProvider = "search-filter-data-map", dataProviderClass = DataProvidersMap.class)
@@ -185,5 +185,5 @@ public class SearchTests extends BaseTests {
         Assert.assertTrue(results.hasAnyMatch(expected),
                 "Filter not applied successfully / Expected results for '" + filter + "'");
     }
-    */
+    
 }
