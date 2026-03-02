@@ -507,7 +507,8 @@ public class DriverFactory {
                     .withLogOutput(devNull())
                     .usingAnyFreePort();
 
-            File exe = safeFileOrNull();
+     File exe;
+         //safeFileOrNull();
             if (exe != null) b.usingDriverExecutable(exe);
             return b.build();
 
