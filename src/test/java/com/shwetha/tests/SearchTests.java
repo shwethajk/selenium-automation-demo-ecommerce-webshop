@@ -146,7 +146,7 @@ public class SearchTests extends BaseTests {
 
     @BeforeMethod(alwaysRun = true)
     public void open() {
-        home = new HomePage(getDriver()).goTo(ConfigReader.get("baseUrl"));
+        home = new HomePage(getDriver()).goTo(ConfigReader.get("baseUrl")).logoutIfLoggedIn();
     }
 
     @Test(description="Verify product search functionality",
