@@ -61,7 +61,7 @@ public abstract class BasePage {
 		}
 	*/
     protected WebElement clickable(By by) { 
-		waitForPageToLoad();
+		//waitForPageToLoad();
         return wait.until(ExpectedConditions.elementToBeClickable(by)); 
     }
 
