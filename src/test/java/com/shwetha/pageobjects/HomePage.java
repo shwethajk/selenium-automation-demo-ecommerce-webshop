@@ -43,7 +43,9 @@ public class HomePage extends BasePage {
         while (true) {
             try {
                 driver.get(url);
-                waitForPageToLoad(); 
+                 ((JavascriptExecutor) driver).executeScript(
+            "return document.readyState"
+                //waitForPageToLoad(); 
                 return this;
             } 
             // // catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.WebDriverException ex) {
