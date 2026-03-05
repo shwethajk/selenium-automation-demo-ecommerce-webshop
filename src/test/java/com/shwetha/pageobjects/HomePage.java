@@ -44,7 +44,7 @@ public class HomePage extends BasePage {
             try {
                 driver.get(url);
                  ((JavascriptExecutor) driver).executeScript(
-            "return document.readyState"
+            "return document.readyState");
                 //waitForPageToLoad(); 
                 return this;
             } 
