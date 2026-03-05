@@ -26,10 +26,60 @@ public class HomePage extends BasePage {
         super(driver); 
     }
 
+    /*
     public HomePage goTo(String baseUrl) {
         driver.get(baseUrl);
         waitForPageToLoad(); 
         return this;
+    }
+    */
+    
+    // --- Minimal retry for renderer stalls during driver.get() ---
+    // public void safeNavigateTo(String url, int retries) {
+    // public void safeNavigateTo(String url) {
+    public HomePage goTo(String url) {
+        int retries = 2;
+        int attempt = 0;
+        while (true) {
+            try {
+                driver.get(url);
+                waitForPageToLoad(); 
+                return this;
+            } 
+            // // catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.WebDriverException ex) {
+            // catch (org.openqa.selenium.TimeoutException ex) {
+            //     String m = String.valueOf(ex.getMessage()).toLowerCase();
+            //     boolean rendererStall = m.contains("timed out receiving message from renderer");
+            //     if (rendererStall && attempt < retries) {
+            //         attempt++;
+            //         // small backoff; keep it short to avoid long suites
+            //         try { Thread.sleep(500L * attempt); } catch (InterruptedException ignored) {}
+            //         continue; // retry driver.get(url)
+            //     }
+            //     throw ex; // propagate anything else
+            // }
+
+
+            // catch (org.openqa.selenium.TimeoutException ex | org.openqa.selenium.WebDriverException ex) ) {
+            catch (org.openqa.selenium.TimeoutException ex) {
+                final String m = String.valueOf(ex.getMessage()).toLowerCase();
+
+                // Known transient cases we want to retry
+                boolean rendererStall = m.contains("timed out receiving message from renderer");
+                boolean netError      = m.contains("net::") || m.contains("err_");
+
+                if ((rendererStall || netError) && attempt < retries) {
+                    attempt++;
+
+                    // One-time quick reset helps unstick the renderer/UI process
+                    try { driver.navigate().to("about:blank"); } catch (Throwable ignored) {}
+
+                    try { Thread.sleep(400L * attempt); } catch (InterruptedException ignored) {}
+                    continue;  // retry get(url)
+                }
+                throw ex; // different error or exhausted retries → bubble up
+            }
+        }
     }
 
     public LoginPage clickLogin() { 
