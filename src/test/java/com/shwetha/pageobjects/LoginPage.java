@@ -13,6 +13,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver) { 
         super(driver); 
+        visible(emailField);   // ensure login
     }
 
     public HomePage loginValid(String email, String password) {
