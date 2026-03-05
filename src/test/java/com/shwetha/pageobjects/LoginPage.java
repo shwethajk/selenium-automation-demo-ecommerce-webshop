@@ -16,16 +16,22 @@ public class LoginPage extends BasePage {
     }
 
     public HomePage loginValid(String email, String password) {
-        visible(emailField).clear(); driver.findElement(emailField).sendKeys(email);
-        driver.findElement(passwordField).clear(); driver.findElement(passwordField).sendKeys(password);
-        clickable(loginButton).click(); waitForPageToLoad();
+        visible(emailField).clear(); 
+        driver.findElement(emailField).sendKeys(email);
+        driver.findElement(passwordField).clear(); 
+        driver.findElement(passwordField).sendKeys(password);
+        clickable(loginButton).click(); 
+        waitForPageToLoad();
         return new HomePage(driver);
     }
 
     public LoginPage loginInvalid(String email, String password) {
-        visible(emailField).clear(); driver.findElement(emailField).sendKeys(email);
-        driver.findElement(passwordField).clear(); driver.findElement(passwordField).sendKeys(password);
-        clickable(loginButton).click(); waitForPageToLoad();
+        visible(emailField).clear(); 
+        driver.findElement(emailField).sendKeys(email);
+        driver.findElement(passwordField).clear(); 
+        driver.findElement(passwordField).sendKeys(password);
+        clickable(loginButton).click(); 
+        waitForPageToLoad();
         return this;
     }
 
