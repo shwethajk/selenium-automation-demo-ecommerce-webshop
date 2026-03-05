@@ -133,7 +133,7 @@ public class PdpTests extends BaseTests {
 
     @BeforeMethod(alwaysRun = true)
     public void open() {
-        home = new HomePage(getDriver()).goTo(ConfigReader.get("baseUrl"));
+        home = new HomePage(getDriver()).goTo(ConfigReader.get("baseUrl")).logoutIfLoggedIn();
     }
 
     @Test(description="Verify PDP add-to-cart availability and behavior (data-driven)",
