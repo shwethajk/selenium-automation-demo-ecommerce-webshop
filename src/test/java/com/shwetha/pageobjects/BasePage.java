@@ -45,11 +45,20 @@ public abstract class BasePage {
         this.wait  = new WebDriverWait(this.driver, Duration.ofSeconds(10));
     }
 
+	/*
     protected void waitForPageToLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(
             wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
     }
+     */
+	    protected void waitForPageToLoad() {
+        // new WebDriverWait(driver, Duration.ofSeconds(15)).until(
+            // wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
 
+            ((JavascriptExecutor) driver).executeScript(
+            "return document.readyState"
+        );
+		}
     protected WebElement clickable(By by) { 
         return wait.until(ExpectedConditions.elementToBeClickable(by)); 
     }
