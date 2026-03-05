@@ -88,6 +88,7 @@ public class HomePage extends BasePage {
 
     public LoginPage clickLogin() { 
         clickable(loginLink).click(); 
+        waitForPageToLoad();
         return new LoginPage(driver); 
     }
 
@@ -116,7 +117,8 @@ public class HomePage extends BasePage {
 
     public HomePage logoutIfLoggedIn() { 
         if (isLoggedIn()) clickable(logoutLink).click(); 
-        return this; 
+        waitForPageToLoad();
+        return this;
     }
 
     // public HomePage logoutIfLoggedIn() {
