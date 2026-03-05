@@ -160,7 +160,8 @@ public class HomePage extends BasePage {
         visible(searchBox).clear();
         driver.findElement(searchBox).sendKeys(keyword);
         clickable(searchBtn).click();
-        waitForPageToLoad();
+        //waitForPageToLoad();
+        wait.until(urlContains("search"));
         return new SearchResultsPage(driver);
     }
 
