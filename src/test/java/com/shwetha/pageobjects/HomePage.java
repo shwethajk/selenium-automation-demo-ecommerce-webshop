@@ -116,8 +116,10 @@ public class HomePage extends BasePage {
     }
 
     public HomePage logoutIfLoggedIn() { 
-        if (isLoggedIn()) clickable(logoutLink).click(); 
-        waitForPageToLoad();
+        if (isLoggedIn()) {
+            clickable(logoutLink).click(); 
+            waitForPageToLoad();
+        }
         return this;
     }
 
