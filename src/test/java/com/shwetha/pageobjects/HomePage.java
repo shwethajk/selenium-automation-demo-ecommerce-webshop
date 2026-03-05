@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.JavascriptExecutor;
 import java.time.Duration;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 // import com.shwetha.framework.utils.WaitUtils;
 
@@ -161,7 +162,8 @@ public class HomePage extends BasePage {
         driver.findElement(searchBox).sendKeys(keyword);
         clickable(searchBtn).click();
         //waitForPageToLoad();
-        wait.until(urlContains("search"));
+        //wait.until(urlContains("search"));
+        wait.until(ExpectedConditions.urlContains("search"));
         return new SearchResultsPage(driver);
     }
 
