@@ -43,6 +43,7 @@ public abstract class BasePage {
             ? driver
             : com.shwetha.framework.base.BaseTests.ensureDriver();
         this.wait  = new WebDriverWait(this.driver, Duration.ofSeconds(10));
+		wait.ignoring(StaleElementReferenceException.class);
     }
 
 	
